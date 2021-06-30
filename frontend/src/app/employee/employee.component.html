@@ -1,0 +1,126 @@
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Employee Management</h2>
+        </div>
+
+        <div class="col ml-auto text-right">
+            <button type="button" class="btn btn-outline-success"
+            (click)="openModal(content)">
+                 <i class="fa fa-plus"></i> Add Employee
+            </button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4" *ngFor="let item of employees">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.name}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{item.position}}</h6>
+                    <!-- <span class="badge" [ngClass]="{
+                        'badge-success' : item.dept == 'Design',
+                        'badge-danger' : item.dept == 'Development'}">
+                        {{ item.dept }}
+                    </span> -->
+                    <span class="badge badge-secondary">
+                        {{ item.dept }}
+                    </span>
+                    <hr>
+                    <button type="button" class="btn btn-sm btn-outline-primarary mr-2"
+                        (click)="onEditEmployee(item, content)">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"
+                        (click)="onDeleteEmployee(item._id)">Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade show" [class.show]="showModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{editMode?'Update' : 'Add'}} Employee</h5>
+                <button (click)="onCloseModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form [formGroup]="empForm" (ngSubmit)="onEmpSubmit()">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Enter Name</label>
+                        <input type="text" class="form-control" formControlName="name">
+                        <small *ngif="!empForm.get('name').valid && empForm.get('name').touched">Ex. Alex Johnson</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Enter Position</label>
+                        <input type="text" class="form-control" formControlName="position">
+                        <small *ngif="!empForm.get('position').valid && empform.get('position').touched">Ex. Full Stack Developer</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Enter Department</label>
+
+                        <select class="custom-select" formControlName="dept">
+                            <option value="Design">Design</option>
+                            <option value="Development">Development</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="onCloseModal()" class="close" data-dismiss="modal" aria-label="Close">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">{{editMode?'Update' : 'Add'}} Employee</h5>
+        <button (click)="onCloseModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <form [formGroup]="empForm" (ngSubmit)="onEmpSubmit()">
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Enter Name</label>
+                <input type="text" class="form-control mb-2" formControlName="name">
+                <small *ngif="!empForm.get('name').valid && empForm.get('name').touched">Ex. Alex Johnson</small>
+            </div>
+
+            <div class="form-group">
+                <label>Enter Position</label>
+                <input type="text" class="form-control mb-2" formControlName="position">
+                <small *ngif="!empForm.get('position').valid && empform.get('position').touched">Ex. Full Stack Developer</small>
+            </div>
+
+            <div class="form-group">
+                <label>Enter Department</label>
+
+                <select class="custom-select form-control mb-2" formControlName="dept">
+                    <option value="Design">Design</option>
+                    <option value="Development">Development</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="onCloseModal()">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="closeModal()">Cancle</button>
+      </div> -->
+  </ng-template>
